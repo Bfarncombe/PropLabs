@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head id="header">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propagation Labs Register</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+
+  <body>
+    <div class="loginContainer">
+      <div class="mb-5">
+        <img id="logo" src="img/logo.png" alt="Propagation Labs Logo" />
+        <h3 id="signUpTitle" class="mb-3">Sign Up</h3>
+        <input
+          type="text"
+          placeholder="Name"
+          id="full_name"
+          class="form-control mb-3"
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          id="email"
+          class="form-control mb-3"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          id="password"
+          class="form-control mb-3"
+        />
+        <button
+          type="button"
+          id="submitButton"
+          class="btn btn-primary mb-3 w-100"
+          onclick="registerUser()"
+        >
+          Sign up
+        </button>
+        <a
+          id="loginOrSignup"
+          href="login.html"
+          class="badge badge-secondary py-1 w-100"
+          >Already have an account?</a
+        >
+      </div>
+    </div>
+  </body>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+  <script src="scripts.js"></script>
+</html>
