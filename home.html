@@ -1,3 +1,10 @@
+<!-- 
+  TODO
+- fix undefined user name 
+- begin doc implementation w/ swagger 
+- look up visualization ideas
+ -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,7 +42,7 @@
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="#">Docs</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -56,27 +63,25 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
           </ul>
           <form class="d-flex" role="search">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <a
-                  id="username"
+                  id="user_name"
                   class="nav-link active"
                   aria-current="page"
                   href="#"
-                  >Username</a
+                  >Name</a
                 >
               </li>
               <li class="nav-item">
                 <a
-                  id="signOut"
+                  id="signoutLink"
+                  onclick="signout()"
                   class="nav-link active"
                   aria-current="page"
-                  href="#"
+                  href="login.html"
                   >Sign Out</a
                 >
               </li>
@@ -85,6 +90,36 @@
         </div>
       </div>
     </nav>
+    <script>
+      window.onload = function () {
+        getUsername();
+
+        //if there is no one logged in
+        if (current_user == null) {
+          user_name.innerText = "Create an Account";
+          user_name.classList.replace("nav-link", "btn");
+          user_name.classList.add("btn-primary");
+          user_name.href = "register.html";
+
+          signoutLink.innerText = "Log in";
+          signoutLink.classList.replace("nav-link", "btn");
+          signoutLink.classList.add("btn-success");
+          signoutLink.href = "login.html";
+        }
+        // if there is a user signed in
+        else {
+          user_name.innerText = current_user.user_name;
+          user_name.classList.replace("btn", "nav-link");
+          user_name.classList.remove("btn-primary");
+          user_name.href = "#";
+
+          signoutLink.innerText = "Sign out";
+          signoutLink.classList.replace("btn", "nav-link");
+          signoutLink.classList.remove("btn-success");
+          signoutLink.href = "javascript:signout()";
+        }
+      };
+    </script>
   </body>
   <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>

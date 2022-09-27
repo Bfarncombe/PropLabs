@@ -100,7 +100,7 @@ function login() {
       database_ref.child("users/" + user.uid).update(user_data);
 
       // Done => check whether user wants to remain logged in or not before moving to home page
-      stayLoggedIn();
+      stayLoggedIn(user);
     })
     .catch(function (error) {
       // Firebase will use this to alert of its errors
@@ -154,4 +154,30 @@ function validate_name(name) {
   } else {
     return false;
   }
+}
+
+// Home page
+
+let username = document.getElementById("user_name");
+let signoutLink = document.getElementById("signoutLink");
+var current_user = null;
+
+//Get users Name
+function getUsername() {
+  let keepLoggedIn = localStorage.getItem("keepLoggedIn");
+
+  if (keepLoggedIn == "true") {
+    current_user = JSON.parse(localStorage.getItem("user"));
+  } else {
+    current_user = JSON.parse(sessionStorage.getItem("user"));
+  }
+}
+// Signout
+// remove data from both sessionStorage and localStorage
+function signout() {
+  sessionStorage.removeItem("user");
+  localStorage.removeItem("user");
+  localStorage.removeItem("keepLoggedIn");
+
+  window.location = "login.html";
 }
