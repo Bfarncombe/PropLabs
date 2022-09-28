@@ -92,8 +92,8 @@
     </nav>
     <script>
       window.onload = function () {
-        getUsername();
-
+        let current_user = getUsername();
+        console.log(current_user);
         //if there is no one logged in
         if (current_user == null) {
           user_name.innerText = "Create an Account";
@@ -108,7 +108,7 @@
         }
         // if there is a user signed in
         else {
-          user_name.innerText = current_user.user_name;
+          user_name.innerText = current_user.email;
           user_name.classList.replace("btn", "nav-link");
           user_name.classList.remove("btn-primary");
           user_name.href = "#";

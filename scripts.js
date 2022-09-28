@@ -172,6 +172,7 @@ function getUsername() {
   } else {
     current_user = JSON.parse(sessionStorage.getItem("user"));
   }
+  return current_user;
 }
 // Signout
 // remove data from both sessionStorage and localStorage
