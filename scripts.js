@@ -100,6 +100,7 @@ function login() {
       database_ref.child("users/" + user.uid).update(user_data);
 
       // Done => check whether user wants to remain logged in or not before moving to home page
+      console.log(user.uid + " is now logged in");
       stayLoggedIn(user);
     })
     .catch(function (error) {
@@ -178,6 +179,8 @@ function signout() {
   sessionStorage.removeItem("user");
   localStorage.removeItem("user");
   localStorage.removeItem("keepLoggedIn");
-
+  auth.signOut().then(() => {
+    console.log("user has signed out");
+  });
   window.location = "login.html";
 }
