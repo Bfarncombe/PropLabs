@@ -93,7 +93,9 @@
     <script>
       window.onload = function () {
         let current_user = getUsername();
-        console.log(current_user);
+
+        //console.log(current_user); //prints info about user
+
         //if there is no one logged in
         if (current_user == null) {
           user_name.innerText = "Create an Account";

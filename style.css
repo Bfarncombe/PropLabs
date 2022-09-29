@@ -39,6 +39,20 @@ h3 {
   font-size: 35px;
 }
 
+.register-confirmed-block {
+  display: inline-block;
+  width: 290px;
+  height: 120px;
+  padding: 5px;
+  background: rgba(211, 211, 211, 0.7);
+  border: 1px rgba(211, 211, 211, 0.7);
+  border-radius: 15px;
+}
+
+#signupConfirmedTitle {
+  text-align: center;
+}
+
 #submitButton {
   background-color: rgb(247, 148, 29);
 }

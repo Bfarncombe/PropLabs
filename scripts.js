@@ -21,21 +21,14 @@ function registerUser() {
   // Get all our input fields
   email = document.getElementById("email").value;
   password = document.getElementById("password").value;
-  full_name = document.getElementById("full_name").value;
 
-  // Validate input fields
-
-  if (validate_name(full_name) == false) {
-    alert("Please enter a valid name.");
-    return;
-  }
   if (validate_email(email) == false) {
     alert("Email is invalid. Please try again.");
     return;
     // Don't continue running the code
   }
   if (validate_password(password) == false) {
-    alert("Password is invalid.");
+    alert("Password is invalid. Password must be at least 6 characters.");
   }
   // Begin authentication
   auth
@@ -50,7 +43,6 @@ function registerUser() {
       // Create User data
       var user_data = {
         email: email,
-        full_name: full_name,
         last_login: Date.now(),
       };
 
@@ -58,7 +50,7 @@ function registerUser() {
       database_ref.child("users/" + user.uid).set(user_data);
       user.sendEmailVerification();
       // Done
-      alert("User created");
+      window.location = "register-confirmed.html";
     })
     .catch(function (error) {
       // Firebase will use this to alert of its errors
@@ -87,7 +79,10 @@ function login() {
     .then(function () {
       // Declare user variable
       var user = auth.currentUser;
-
+      if (!user.emailVerified) {
+        alert("Please verify your email before logging in.");
+        return;
+      }
       // Add this user to Firebase Database
       var database_ref = database.ref();
 
@@ -100,7 +95,7 @@ function login() {
       database_ref.child("users/" + user.uid).update(user_data);
 
       // Done => check whether user wants to remain logged in or not before moving to home page
-      console.log(user.uid + " is now logged in");
+
       stayLoggedIn(user);
     })
     .catch(function (error) {
@@ -127,6 +122,17 @@ function stayLoggedIn(user) {
   }
 }
 
+// Send password reset email
+function sendNewPassword() {
+  email = document.getElementById("email").value;
+  if (validate_email(email) == false) {
+    alert("Email is invalid. Please try again.");
+    return;
+  }
+  auth.sendPasswordResetEmail(email);
+  window.location = "password-reset-complete.html";
+}
+
 // Validation Functions
 function validate_email(email) {
   expression = /^[^@]+@\w+(\.\w+)+\w$/;
@@ -148,17 +154,7 @@ function validate_password(password) {
   }
 }
 
-function validate_name(name) {
-  expression = /^[a-zA-Z\s]+$/;
-  if (expression.test(name) == true) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 // Home page
-
 let username = document.getElementById("user_name");
 let signoutLink = document.getElementById("signoutLink");
 var current_user = null;
@@ -174,14 +170,14 @@ function getUsername() {
   }
   return current_user;
 }
+
 // Signout
-// remove data from both sessionStorage and localStorage
+// remove data from both sessionStorage and localStorage and use auth to sign user out
 function signout() {
   sessionStorage.removeItem("user");
   localStorage.removeItem("user");
   localStorage.removeItem("keepLoggedIn");
   auth.signOut().then(() => {
-    console.log("user has signed out");
+    window.location = "login.html";
   });
-  window.location = "login.html";
 }
