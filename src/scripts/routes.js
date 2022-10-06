@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
 // Firebase admin SDK from service accounts w/ a generated private key
-var serviceAccount = require("./serviceAccountKey.json");
+var serviceAccount = require("../../serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
