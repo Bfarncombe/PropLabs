@@ -1,0 +1,284 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Propagation Labs API",
+    "description": "This API allows users to access data that has been collected from our app and the snow scope. Currently you can get snowpack heights and group profile data via two different get requests: \n<br>\n1. If you know a specific piece of data that you would like to get, you can request it by using the document id. \n\n2. If you would like to access all data of a field, use the get all request.\n\nBelow you will see examples of the possible get requests and their outputs if successful. ",
+    "contact": {
+      "email": "contact@propagationlabs.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5001/avatech-production/us-central1/app/"
+    }
+  ],
+  "paths": {
+    "/snowpackHeight/{docID}": {
+      "get": {
+        "tags": ["Snow Pack Heights"],
+        "summary": "Get specific Snowpack Height by docID",
+        "description": "If you know a certain snowpack height that you want to retrieve, this can be done using the specfifc document id.",
+        "operationId": "updatePet",
+        "parameters": [
+          {
+            "name": "docID",
+            "in": "path",
+            "description": "Enter the document ID that you want to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/snowpackHeights"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/snowpackHeights"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document with docment ID not found"
+          }
+        }
+      }
+    },
+    "/allSnowpackHeights": {
+      "get": {
+        "tags": ["Snow Pack Heights"],
+        "summary": "Retrieves all snowpack heights in the database",
+        "description": "Returns every snowpack height that is on the database",
+        "operationId": "allSnowPackHeights",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/snowpackHeights"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/snowpackHeights"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Could not retrieve snowpack heights"
+          }
+        }
+      }
+    },
+    "/profileGroupData/{docID}": {
+      "get": {
+        "tags": ["Profile Group Data"],
+        "summary": "Get specific document via document id",
+        "description": "If you know a certain profile group that you want to retrieve, this can be done using the specfifc document id.",
+        "operationId": "getProfileGroupData",
+        "parameters": [
+          {
+            "name": "docID",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profileGroupData"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/profileGroupData"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document with docment ID not found"
+          }
+        }
+      }
+    },
+    "/allProfileGroupData": {
+      "get": {
+        "tags": ["Profile Group Data"],
+        "summary": "Retrieve all profile group data in the database",
+        "description": "Returns every profile group data that is on the database",
+        "operationId": "getAllProfileGroupData",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profileGroupData"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/profileGroupData"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Could not retrieve profile group data"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "snowpackHeights": {
+        "type": "object",
+        "properties": {
+          "aspect": {
+            "type": "string",
+            "example": "NE"
+          },
+          "collectionTime": {
+            "type": "number",
+            "format": "float",
+            "example": 1664819897.227
+          },
+          "creatorName": {
+            "type": "string",
+            "example": "Garrett Harmsen"
+          },
+          "creatorOrg": {
+            "type": "string",
+            "example": "Propagation Labs"
+          },
+          "elevation": {
+            "type": "number",
+            "format": "float",
+            "example": 1295.6488603591897
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32",
+            "example": 150
+          },
+          "isPublic": {
+            "type": "boolean",
+            "example": true
+          },
+          "latitude": {
+            "type": "integer",
+            "format": "int32",
+            "example": 40.76
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float",
+            "example": -111.89
+          },
+          "slope": {
+            "type": "number",
+            "format": "float",
+            "example": 5
+          }
+        },
+        "items": {
+          "$ref": "#/components/schemas/snowpackHeights"
+        }
+      },
+      "profileGroupData": {
+        "type": "object",
+        "properties": {
+          "aspect": {
+            "type": "string",
+            "example": "NE"
+          },
+          "collectionTime": {
+            "type": "number",
+            "format": "float",
+            "example": 1664819897.227
+          },
+          "creatorOrg": {
+            "type": "string",
+            "example": "Propagation Labs"
+          },
+          "elevation": {
+            "type": "number",
+            "format": "float",
+            "example": 1295.6488603591897
+          },
+          "slope": {
+            "type": "integer",
+            "format": "int32",
+            "example": 5
+          },
+          "totalSnowDepth": {
+            "type": "integer",
+            "format": "int32",
+            "example": 200
+          },
+          "name": {
+            "type": "string",
+            "example": "Columbia-Shuswap, BC, Canada"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float",
+            "example": 51.58931097675287
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float",
+            "example": -117.58400104875084
+          }
+        },
+        "items": {
+          "$ref": "#/components/schemas/profileGroupData"
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "##default"
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,3 @@
-/*
-TODO
-- Begin implementation of Auth (firebase built in feature)
-*/
-
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
@@ -19,6 +14,7 @@ const cors = require("cors");
 
 // Main App
 const app = express();
+const router = express.Router();
 
 // Allow access from different origins
 app.use(cors({ origin: true }));
@@ -27,13 +23,13 @@ app.use(cors({ origin: true }));
 const db = admin.firestore();
 
 // Routes
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   return res.status(200).send("API is running");
 });
 
 // Get
 // Get data from firebase using specific docID in snowpackHeights collection
-app.get("/api/get/snowpackHeights/:docID", (req, res) => {
+router.get("/api/get/snowpackHeights/:docID", (req, res) => {
   (async () => {
     try {
       const query = db.collection("snowpackHeights").doc(req.params.docID); // get reference for doc id from collection
@@ -69,7 +65,7 @@ app.get("/api/get/snowpackHeights/:docID", (req, res) => {
 });
 
 // Get all data from firebase in snowPackHeights collection
-app.get("/api/get/allSnowpackHeights", (req, res) => {
+router.get("/api/get/allSnowpackHeights", (req, res) => {
   (async () => {
     try {
       const query = db.collection("snowpackHeights"); // Select collection to get documents from
@@ -112,7 +108,7 @@ app.get("/api/get/allSnowpackHeights", (req, res) => {
 });
 
 // Get data from firebase using specific docID in profileGroupData collection
-app.get("/api/get/profileGroupData/:docID", (req, res) => {
+router.get("/api/get/profileGroupData/:docID", (req, res) => {
   (async () => {
     try {
       const query = db.collection("profileGroupData").doc(req.params.docID); // get reference for doc id from collection
@@ -168,7 +164,7 @@ app.get("/api/get/profileGroupData/:docID", (req, res) => {
 });
 
 // Get all data from firebase in profileGroupData collection
-app.get("/api/get/allProfileGroupData", (req, res) => {
+router.get("/api/get/allProfileGroupData", (req, res) => {
   (async () => {
     try {
       const query = db.collection("profileGroupData"); // Select collection to get documents from
@@ -231,8 +227,7 @@ app.get("/api/get/allProfileGroupData", (req, res) => {
 });
 
 // export API to firebase cloud functions
-exports.app = functions.https.onRequest(app);
-
+module.exports = router;
 /* 
 // Methods for testing purposes 
 
