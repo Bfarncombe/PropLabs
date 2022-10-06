@@ -1,8 +1,13 @@
+/*
+TODO
+- Begin implementation of Auth (firebase built in feature)
+*/
+
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
 // Firebase admin SDK from service accounts w/ a generated private key
-var serviceAccount = require("../../serviceAccountKey.json");
+var serviceAccount = require("../serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -14,7 +19,6 @@ const cors = require("cors");
 
 // Main App
 const app = express();
-const router = express.Router();
 
 // Allow access from different origins
 app.use(cors({ origin: true }));
@@ -23,13 +27,13 @@ app.use(cors({ origin: true }));
 const db = admin.firestore();
 
 // Routes
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   return res.status(200).send("API is running");
 });
 
 // Get
 // Get data from firebase using specific docID in snowpackHeights collection
-router.get("/api/get/snowpackHeights/:docID", (req, res) => {
+app.get("/snowpackHeight/:docID", (req, res) => {
   (async () => {
     try {
       const query = db.collection("snowpackHeights").doc(req.params.docID); // get reference for doc id from collection
@@ -52,20 +56,22 @@ router.get("/api/get/snowpackHeights/:docID", (req, res) => {
           slope: snowpackHeight.data().slope,
         };
         return res.status(200).send({ status: "Success", data: response });
-      } else {
-        return res
-          .status(500)
-          .send({ status: "Failed", msg: "Document ID not found." });
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ status: "Failed", msg: error });
+      return res.status(404).send({
+        status: "Failed",
+        msg:
+          "Document with id:" +
+          req.params.docID +
+          " not found. Ensure you have the correct document ID.",
+      });
     }
   })();
 });
 
 // Get all data from firebase in snowPackHeights collection
-router.get("/api/get/allSnowpackHeights", (req, res) => {
+app.get("/allSnowpackHeights", (req, res) => {
   (async () => {
     try {
       const query = db.collection("snowpackHeights"); // Select collection to get documents from
@@ -94,21 +100,19 @@ router.get("/api/get/allSnowpackHeights", (req, res) => {
           return response;
         });
         return res.status(200).send({ status: "Success", data: response });
-      } else {
-        return res.status(500).send({
-          status: "Failed",
-          msg: "Could not retrieve snowpack heights.",
-        });
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ status: "Failed", msg: error });
+      return res.status(500).send({
+        status: "Failed",
+        msg: "Could not retrieve snowpack heights.",
+      });
     }
   })();
 });
 
 // Get data from firebase using specific docID in profileGroupData collection
-router.get("/api/get/profileGroupData/:docID", (req, res) => {
+app.get("/profileGroupData/:docID", (req, res) => {
   (async () => {
     try {
       const query = db.collection("profileGroupData").doc(req.params.docID); // get reference for doc id from collection
@@ -130,7 +134,7 @@ router.get("/api/get/profileGroupData/:docID", (req, res) => {
             //isPublic: profileGroup.data().isPublic, // field yet to be implemented
           };
 
-          // Determine if name should be included in response by checking profilePrivacy value if 0 return name
+          // Determine if name should be included in response by checking profilePrivacy value, if == 0 => return name
           if (profileGroup.data().profilePrivacy == 0) {
             response.name = profileGroup.data().name;
           }
@@ -145,26 +149,23 @@ router.get("/api/get/profileGroupData/:docID", (req, res) => {
             response.longitude = profileGroup.data().longitude;
           }
           return res.status(200).send({ status: "Success", data: response });
-        } else {
-          return res.status(500).send({
-            status: "Failed",
-            msg: "Does not contain a total snow depth.",
-          });
         }
-      } else {
-        return res
-          .status(500)
-          .send({ status: "Failed", msg: "Document ID not found." });
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ status: "Failed", msg: error });
+      return res.status(404).send({
+        status: "Failed",
+        msg:
+          "Document with id:" +
+          req.params.docID +
+          " not found. Ensure you have the correct document ID.",
+      });
     }
   })();
 });
 
 // Get all data from firebase in profileGroupData collection
-router.get("/api/get/allProfileGroupData", (req, res) => {
+app.get("/allProfileGroupData", (req, res) => {
   (async () => {
     try {
       const query = db.collection("profileGroupData"); // Select collection to get documents from
@@ -213,21 +214,20 @@ router.get("/api/get/allProfileGroupData", (req, res) => {
         });
 
         return res.status(200).send({ status: "Success", data: response });
-      } else {
-        return res.status(500).send({
-          status: "Failed",
-          msg: "Could not retrieve profile group data.",
-        });
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ status: "Failed", msg: error });
+      return res.status(404).send({
+        status: "Failed",
+        msg: "Could not retrieve profile group data.",
+      });
     }
   })();
 });
 
 // export API to firebase cloud functions
-module.exports = router;
+exports.app = functions.https.onRequest(app);
+
 /* 
 // Methods for testing purposes 
 
