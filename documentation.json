@@ -16,10 +16,12 @@
   "paths": {
     "/snowpackHeight/{docID}": {
       "get": {
-        "tags": ["Snow Pack Heights"],
+        "tags": [
+          "Snow Pack Heights"
+        ],
         "summary": "Get specific Snowpack Height by docID",
         "description": "If you know a certain snowpack height that you want to retrieve, this can be done using the specfifc document id.",
-        "operationId": "updatePet",
+        "operationId": "snowpackHeight",
         "parameters": [
           {
             "name": "docID",
@@ -55,7 +57,9 @@
     },
     "/allSnowpackHeights": {
       "get": {
-        "tags": ["Snow Pack Heights"],
+        "tags": [
+          "Snow Pack Heights"
+        ],
         "summary": "Retrieves all snowpack heights in the database",
         "description": "Returns every snowpack height that is on the database",
         "operationId": "allSnowPackHeights",
@@ -89,10 +93,12 @@
     },
     "/profileGroupData/{docID}": {
       "get": {
-        "tags": ["Profile Group Data"],
+        "tags": [
+          "Profile Group Data"
+        ],
         "summary": "Get specific document via document id",
         "description": "If you know a certain profile group that you want to retrieve, this can be done using the specfifc document id.",
-        "operationId": "getProfileGroupData",
+        "operationId": "profileGroupData",
         "parameters": [
           {
             "name": "docID",
@@ -128,10 +134,12 @@
     },
     "/allProfileGroupData": {
       "get": {
-        "tags": ["Profile Group Data"],
+        "tags": [
+          "Profile Group Data"
+        ],
         "summary": "Retrieve all profile group data in the database",
         "description": "Returns every profile group data that is on the database",
-        "operationId": "getAllProfileGroupData",
+        "operationId": "allProfileGroupData",
         "responses": {
           "200": {
             "description": "successful operation",
