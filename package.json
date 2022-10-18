@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Bfarncombe/PropLabsAuth#readme",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "swagger-ui": "^4.14.2",
     "swagger-ui-dist": "^4.14.2",
     "swagger-ui-express": "^4.5.0"

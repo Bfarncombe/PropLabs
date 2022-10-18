@@ -1,6 +1,8 @@
+const env = require("dotenv");
+
 // Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyC3HdoLNxy4ov8kVaQ18t7LhmWItYhH-dI",
+  apiKey: process.env.API_KEY,
   authDomain: "avatech-production.firebaseapp.com",
   databaseURL: "https://avatech-production.firebaseio.com",
   projectId: "avatech-production",
