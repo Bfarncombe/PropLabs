@@ -1,8 +1,3 @@
-/*
-TODO
-- Begin implementation of Auth (firebase built in feature)
-*/
-
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
